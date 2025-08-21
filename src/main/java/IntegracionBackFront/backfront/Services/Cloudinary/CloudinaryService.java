@@ -12,7 +12,7 @@ import java.util.Map;
 @Service
 public class CloudinaryService {
     //1. Constante para definir el tamaño maximo permitido para los archivos (5MB)
-    private static final long MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024 * 1024 * 1024;
+    private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     //2. Extenciones de archivos permitidas
     private static final String[] ALLOWED_EXTENSIONS = {".jpg", ".png", ".jpeg", ".webp"};
