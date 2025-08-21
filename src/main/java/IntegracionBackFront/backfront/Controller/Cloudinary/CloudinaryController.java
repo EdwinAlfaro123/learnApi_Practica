@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/Image")
-public class ImageController {
+public class CloudinaryController {
 
 }

@@ -8,26 +8,26 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+@Configuration //Se inician al momento de ejecutar la API
 public class CloudinaryConfig {
+
     private String cloudName;
     private String apiKey;
     private String apiSecret;
 
-    @Bean //Hace que el metodo sea inyectado sobre otras clases
+    @Bean
+    //Metodo que se autoejecuta por la anotacion Bean
     public Cloudinary cloudinary(){
-        //Cargando todas las variables del archivo .env
+         //Crear un objeto para leer las variables del archivo .env
         Dotenv dotenv = Dotenv.load();
 
-        //Crear un Map para almacenar la informacion
+        //Crear un Map para almacenar la configuracion necesaria para Cloudinary
         Map<String, String> config = new HashMap<>();
 
-        //Obteniendo las credenciales desde las variables de entorno
         config.put("cloud_name", dotenv.get("CLOUDINARY_CLOUD_NAME"));
         config.put("api_key", dotenv.get("CLOUDINARY_API_KEY"));
-        config.put("api_secret", dotenv.get("CLODINARY_API_SECRET"));
+        config.put("api_secret", dotenv.get("CLOUDINARY_API_SECRET"));
 
-        //Retornar una nueva instancia de clodianry con la configuracion cargada
         return new Cloudinary(config);
     }
 }
