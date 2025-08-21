@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class CloudinaryService {
@@ -35,8 +36,28 @@ public class CloudinaryService {
         return (String) uploadResult.get("secure_url");
     }
 
+    public String uploadImage(MultipartFile file, String folder) throws IOException{
+        validateImage(file);
+        String originalFileName = file.getOriginalFilename();
+        String fileExtensions = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
+        String uniqueFileName = "img" + UUID.randomUUID() + fileExtensions;
+
+        Map<String, Object> options = ObjectUtils.asMap(
+                "folder", folder,   //Carpeta de destino
+                "public_id", uniqueFileName,//NOmbre unico para el archivo
+                "use_filename", false,      //No se puede usar el nombre original
+                "unique_filename", false,   //No genera nombre unico (ya lo hicimos)
+                "overwrite", false,          //No sobreescribir archivos existentes
+                "reosurce_type", "auto",
+                "quality", "auto:good"
+        );
+        Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), options);
+        return (String) uploadResult.get("secure_url");
+
+    }
+
     private void validateImage(MultipartFile file) {
-        //Verificar si el archivo esta vacion
+        //Verificar si el archivo esta vacio
         if(file.isEmpty()) throw new IllegalArgumentException("El archivo no puede estar vacio");
         if(file.getSize() > MAX_FILE_SIZE) throw new IllegalArgumentException("Como excediste 5TB con una imagen?"); //Verificar si el tamaño del archivo excede el limite permitido
         String originalFileName = file.getOriginalFilename();
