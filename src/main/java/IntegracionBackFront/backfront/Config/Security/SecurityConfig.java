@@ -27,13 +27,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         //Aqui van todos los endPoints públicos que no requieren de un JWT
         http
+                //csrf cierra la API de todos lados y nosotros decidimos de donde aceptar las solicitudes
                 .csrf(csrf -> csrf.disable())  // Nuevo estilo lambda
                 .authorizeHttpRequests(auth -> auth  // Cambia authorizeRequests por authorizeHttpRequests
                         .requestMatchers(HttpMethod.POST,
                                 "/api/auth/login",
                                 "/api/auth/logout")
                         .permitAll()
-                        .requestMatchers("/api/auth/me").authenticated()
+                        //.requestMatchers("/api/auth/me").authenticated()
                         .requestMatchers("/api/test/admin-only").hasRole("Administrador")
                         .requestMatchers("/api/test/cliente-only").hasRole("Cliente")
                         .anyRequest().authenticated())
