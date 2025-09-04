@@ -36,7 +36,10 @@ public class JWTUtils {
 
         //Obtiene la fecha catual y calcula la fecha de expiración
         Date now = new Date();
+        //capturar la fecha del momento exacto
+
         Date expiration = new Date(now.getTime() + expiracionMs);
+        //captura de la fecha de vencimiento en este caso un dia despues de la fecha de la variable now
 
         //Construye el token con sus componentes
         return Jwts.builder()
@@ -50,6 +53,7 @@ public class JWTUtils {
                 .signWith(signingKey, SignatureAlgorithm.HS256)         // Firma con algoritmo HS256
                 .compact();                                             // Convierte a String compacto
     }
+    //el .claim extrae una parte de la encriptacion
 
     public String extractRol(String token){
         Claims claims = parseToken(token);
