@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/apiAuth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -25,6 +26,7 @@ public class AuthController {
     @Autowired
     private JWTUtils jwtUtils;
 
+    @PostMapping("/login")
     private ResponseEntity<String> login (@Valid @RequestBody UserDTO data, HttpServletResponse response){
         if (data.getCorreo() == null || data.getCorreo().isBlank() ||
                 data.getContrasena() == null || data.getContrasena().isBlank()) {
